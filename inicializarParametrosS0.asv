@@ -1,0 +1,20 @@
+function parametros = inicializarParametrosS0(matrizCargas, distancias, hangares)
+% Inicializa con valor 1 los parametros que influyen en la elección de una
+% carga para generar así una solución inicial completamente aleatoria
+
+    [m, n] = size(matrizDistancias); % Dimensiones de la matriz de distancias
+    numHangares = size(datos.hangares,1); % Numero de hangares
+
+    % Crea la matriz cuadrada eta con dimensiones (numCiudades + numHangares) x (numCiudades + numHangares) 
+    parametros.eta = ones(m + numHangares, n + numHangares);
+    parametros.eta(1:m, 1:n) = 1 ./ matrizDistancias;   % Actualiza las celdas correspondientes a la distancia
+    parametros.eta(isinf(parametros.eta)) = 1;          % Hace 1 los valores de eta = infinito (Diagonal principal)
+
+    % Crea la matriz cuadrada tau con las mismas dimensiones que eta
+    parametros.tau = ones(size(parametros.eta));
+
+    % Parámetros independientes
+    parametros.alfa = 1;
+    parametros.beta = 1;
+    parametros.q0 = 0;      % De esta forma forzamos que la selección sea aleatoria (probabilidades)
+end
